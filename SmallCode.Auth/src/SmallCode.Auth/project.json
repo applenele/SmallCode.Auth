@@ -22,6 +22,11 @@
     "Microsoft.Extensions.Logging": "1.0.0-rc2-final",
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc2-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Authentication": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Session": "1.0.0-rc2-final",
+    "Microsoft.Extensions.DependencyInjection": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0-rc2-final"
   },
 
   "tools": {

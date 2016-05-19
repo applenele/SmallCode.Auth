@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SmallCode.Auth.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace SmallCode.Auth
 {
@@ -40,7 +41,14 @@ namespace SmallCode.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AuthContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PostgreSql")));
+
             services.AddMvc();
+            services.AddSession();
+            services.AddAuthorization();
+            services.AddAuthentication(options => options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+
+            //csrf
+            services.AddAntiforgery();
         }
 
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -48,7 +56,21 @@ namespace SmallCode.Auth
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseExceptionHandler("/Home/Error");
+
             app.UseStaticFiles();
+
+            app.UseSession();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = new PathString("/Account/Login"),
+                AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme,
+                
+            });
+
 
             app.UseMvc(routes =>
             {
