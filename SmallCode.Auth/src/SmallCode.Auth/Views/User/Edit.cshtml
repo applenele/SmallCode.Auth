@@ -1,0 +1,105 @@
+﻿
+<form id="editForm" method="post">
+    <input name="id" class="mini-hidden" />
+    <input type="hidden" name="IsInsert" value="@ViewBag.IsInsert" />
+    <div style="padding-left:11px;padding-bottom:5px;">
+        <table style="table-layout:fixed;">
+            <tr>
+                <td style="width:70px;">员工名称：</td>
+                <td style="width:150px;">
+                    <input name="UserName" class="mini-textbox" required="true" emptyText="请输入用户名" />
+                </td>
+                <td style="width:70px;">所属部门：</td>
+                <td style="width:150px;">
+                    <input name="dept_id" class="mini-combobox" valueField="Id" textField="DepartmentName"
+                           url="/User/GetDepartments"
+                           onvaluechanged="onDeptChanged" required="true"
+                           emptyText="请选择部门" />
+                </td>
+            </tr>
+            <tr>
+                <td>工号：</td>
+                <td>
+                    <input name="UserNum" class="mini-textbox" required="true" />
+                </td>
+                <td>职位：</td>
+                <td>
+                    <input name="Position" class="mini-textbox" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <fieldset style="border:solid 1px #aaa;padding:3px;">
+        <legend>基本信息</legend>
+        <div style="padding:5px;">
+            <table>
+                <tr>
+                    <td style="width:70px;">姓名</td>
+                    <td style="width:150px;">
+                        <input name="RealName" class="mini-textbox" required="true" />
+                    </td>
+                    <td style="width:70px;">性别：</td>
+                    <td>
+                        <select name="Sex" class="mini-radiobuttonlist">
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+    <div style="text-align:center;padding:10px;">
+        <a class="mini-button" onclick="onOk" style="width:60px;margin-right:20px;">确定</a>
+        <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+    </div>
+</form>
+<script type="text/javascript">
+    mini.parse();
+
+    var form = new mini.Form("editForm");
+
+    function SaveData() {
+        var o = form.getData();
+
+        form.validate();
+        if (form.isValid() == false) return;
+
+        //var json = mini.encode([o]);
+        $.ajax({
+            url: "/User/Edit",
+            type: 'post',
+            data: o,
+            cache: false,
+            success: function (text) {
+                CloseWindow("save");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+                CloseWindow();
+            }
+        });
+    }
+
+
+
+    function CloseWindow(action) {
+        if (action == "close" && form.isChanged()) {
+            if (confirm("数据被修改了，是否先保存？")) {
+                return false;
+            }
+        }
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+
+    function onOk(e) {
+        SaveData();
+    }
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+</script>

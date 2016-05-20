@@ -24,6 +24,26 @@ namespace SmallCode.Auth.Models
         public string UserName { set; get; }
 
         /// <summary>
+        /// 用户编号
+        /// </summary>
+        public string UserNum { get; set; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public SexEnum Sex { set; get; }
+
+        /// <summary>
+        /// 职位
+        /// </summary>
+        public string Position { get; set; }
+
+        /// <summary>
+        /// 正式姓名
+        /// </summary>
+        public string RealName { get; set; }
+
+        /// <summary>
         /// 地址
         /// </summary>
         public string Address { set; get; }

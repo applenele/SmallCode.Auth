@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SmallCode.Auth.Controllers
 {
@@ -14,6 +13,12 @@ namespace SmallCode.Auth.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult GetMenu()
+        {
+            string menuStr = System.IO.File.ReadAllText("menu.txt");
+            return Content(menuStr);
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿[
+	{id: "sys", text: "系统管理"},
+	{id: "user", text: "用户管理",pid:"sys"},
+	{id: "lists", text: "用户列表",url:"/User/Index", pid: "user" },
+	{id: "userAdd", text: "增加用户",url:"/User/Edit", pid: "user"},	
+
+    {id: "department", text: "部门管理",pid:"sys"},
+	{id: "departmentList", text: "部门列表",url:"/Department/Index", pid: "department" },
+	{id: "departmentAdd", text: "增加部门",url:"/Department/Edit", pid: "department"},	
+
+    {id: "role", text: "角色管理",pid:"sys"},
+	{id: "roleList", text: "角色列表",url:"/Role/Index", pid: "role" },
+	{id: "roleAdd", text: "增加角色",url:"/Role/Edit", pid: "role"},	
+
+	{id: "function", text: "功能管理",pid:"sys"},
+	{id: "functionList", text: "功能管理",url:"/Function/Index", pid: "function"},		
+	{id: "functionAdd", text: "增加角色",url:"/Function/Edit", pid: "function"},	
+]
+
+

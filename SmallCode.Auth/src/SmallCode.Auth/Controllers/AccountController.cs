@@ -37,7 +37,7 @@ namespace SmallCode.Auth.Controllers
                 ///登录写入cookie 设置过期时间 这个时间是滑动时间　不是绝对的时间
                 await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                           new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)),
-                          new AuthenticationProperties { ExpiresUtc = DateTime.UtcNow.AddMinutes(1) });
+                          new AuthenticationProperties { ExpiresUtc = DateTime.UtcNow.AddMinutes(30) });
 
                 return Redirect("/Home/Index");
             }
