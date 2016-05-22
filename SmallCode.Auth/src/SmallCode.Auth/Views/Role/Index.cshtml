@@ -16,7 +16,7 @@
                     <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
                 </td>
                 <td style="white-space:nowrap;">
-                    <input id="key" class="mini-textbox" emptyText="请输入功能" style="width:150px;" onenter="onKeyEnter" />
+                    <input id="key" class="mini-textbox" emptyText="请输入角色" style="width:150px;" onenter="onKeyEnter" />
                     <a class="mini-button" onclick="search()">查询</a>
                 </td>
             </tr>
@@ -24,14 +24,13 @@
     </div>
 </div>
 <div id="datagrid" class="mini-datagrid" style="width:100%;height:250px;"
-     url="/Function/FunctionList" idField="Id" allowResize="true"
+     url="/Role/RoleList" idField="Id" allowResize="true"
      multiSelect="true">
     <div property="columns">
         <div type="indexcolumn"></div>
         <div type="checkcolumn"></div>
-        <div field="Id" width="120" headerAlign="center">ID</div>
-        <div field="FunctionName" width="120" headerAlign="center" allowSort="true">功能名称</div>
-        <div field="Url" width="120" headerAlign="center">功能名称</div>
+        <div field="Id" width="120" headerAlign="center" allowSort="true">角色ID</div>
+        <div field="RoleName" width="120" headerAlign="center" allowSort="true">角色名称</div>
         <div field="CreatedDate" width="100" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true">创建日期</div>
     </div>
 </div>
@@ -66,7 +65,7 @@
 
     function add() {
         mini.open({
-            url: "/Function/Edit",
+            url: "/Role/Edit",
             title: "新增角色", width: 600, height: 400,
             onload: function () {
                 var iframe = this.getIFrameEl();
@@ -84,7 +83,7 @@
         console.log(row);
         if (row) {
             mini.open({
-                url: "/Function/Edit/" + row,
+                url: "/Role/Edit/" + row,
                 title: "编辑角色", width: 600, height: 400,
                 onload: function () {
                     var iframe = this.getIFrameEl();
@@ -113,7 +112,7 @@
                 var id = ids.join(',');
                 grid.loading("操作中，请稍后......");
                 $.ajax({
-                    url: "/Function/Remove/",
+                    url: "/Role/Remove/",
                     data: { ids: id },
                     type: "post",
                     success: function (text) {

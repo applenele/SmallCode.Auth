@@ -1,0 +1,65 @@
+﻿
+<form id="editForm" method="post">
+    <input name="id" class="mini-hidden" />
+    <input type="hidden" name="IsInsert" value="@ViewBag.IsInsert" />
+    <div style="padding-left:11px;padding-bottom:5px;">
+        <table style="table-layout:fixed;">
+            <tr>
+                <td style="width:70px;">角色名称：</td>
+                <td style="width:150px;">
+                    <input name="RoleName" class="mini-textbox" required="true" emptyText="请输入角色" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="text-align:center;padding:10px;">
+        <a class="mini-button" onclick="onOk" style="width:60px;margin-right:20px;">确定</a>
+        <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+    </div>
+</form>
+<script type="text/javascript">
+    mini.parse();
+
+    var form = new mini.Form("editForm");
+
+    function SaveData() {
+        var o = form.getData();
+
+        form.validate();
+        if (form.isValid() == false) return;
+
+        //var json = mini.encode([o]);
+        $.ajax({
+            url: "/Role/Edit",
+            type: 'post',
+            data: o,
+            cache: false,
+            success: function (text) {
+                CloseWindow("save");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+                CloseWindow();
+            }
+        });
+    }
+
+
+    function CloseWindow(action) {
+        if (action == "close" && form.isChanged()) {
+            if (confirm("数据被修改了，是否先保存？")) {
+                return false;
+            }
+        }
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+
+    function onOk(e) {
+        SaveData();
+    }
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+</script>
