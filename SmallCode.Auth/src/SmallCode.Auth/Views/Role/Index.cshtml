@@ -13,6 +13,7 @@
                 <td style="width:100%;">
                     <a class="mini-button" iconCls="icon-add" onclick="add()">增加</a>
                     <a class="mini-button" iconCls="icon-add" onclick="edit()">编辑</a>
+                    <a class="mini-button" iconCls="icon-add" onclick="auth()">授权</a>
                     <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
                 </td>
                 <td style="white-space:nowrap;">
@@ -36,10 +37,10 @@
 </div>
 <script type="text/javascript">
 
+
     mini.parse();
 
     var grid = mini.get("datagrid");
-
     grid.load();
 
 
@@ -53,15 +54,6 @@
         }
     });
 
-    ///////////////////////////////////////////////////////
-    var Genders = [{ id: 0, text: '男' }, { id: 1, text: '女' }];
-    function onGenderRenderer(e) {
-        for (var i = 0, l = Genders.length; i < l; i++) {
-            var g = Genders[i];
-            if (g.id == e.value) return g.text;
-        }
-        return "";
-    }
 
     function add() {
         mini.open({
@@ -78,9 +70,24 @@
         });
     }
 
+    function auth() {
+        var row = grid.getSelected();
+        mini.open({
+            url: "/Role/Auth/" + row.Id,
+            title: "新增角色", width: 600, height: 400,
+            onload: function () {
+              
+            },
+            ondestroy: function (action) {
+                grid.reload();
+            }
+        });
+    }
+
+
+
     function edit() {
         var row = grid.getSelected();
-        console.log(row);
         if (row) {
             mini.open({
                 url: "/Role/Edit/" + row,
