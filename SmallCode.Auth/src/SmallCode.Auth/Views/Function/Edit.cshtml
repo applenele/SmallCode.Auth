@@ -1,17 +1,32 @@
-﻿
+﻿@using SmallCode.Auth.Models;
+@model SmallCode.Auth.Models.Function
+
+
 <form id="editForm" method="post">
-    <input name="id" class="mini-hidden" />
-    <input type="hidden" name="IsInsert" value="@ViewBag.IsInsert" />
+    <input name="Id" class="mini-hidden" value="@Model.Id" />
+    <input class="mini-hidden" name="State" value="@ViewBag.WebState" />
     <div style="padding-left:11px;padding-bottom:5px;">
         <table style="table-layout:fixed;">
             <tr>
                 <td style="width:70px;">方法名称：</td>
                 <td style="width:150px;">
-                    <input name="FunctionName" class="mini-textbox" required="true" emptyText="请输入功能" />
+                    <input name="FunctionName" class="mini-textbox" required="true" value="@Model.FunctionName" emptyText="请输入功能" />
                 </td>
                 <td style="width:70px;">方法url：</td>
                 <td style="width:150px;">
-                    <input name="Url" class="mini-textbox" required="true" emptyText="请输入Url" />
+                    <input name="Url" class="mini-textbox" required="true" value="@Model.Url" emptyText="请输入Url" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:70px;">功能编号：</td>
+                <td style="width:150px;">
+                    <input name="FunctionCode" class="mini-textbox" required="true" value="@Model.FunctionCode" emptyText="请输入功能编号" />
+                </td>
+                <td style="width:70px;">父亲功能：</td>
+                <td style="width:150px;">
+                    <input name="FatherId" id="ddlFatherId" class="mini-combobox" valueField="Id" textField="FunctionName"
+                           url="/Function/GetFathers" valueSelected="@Model.Id"
+                           emptyText="请选择部门" />
                 </td>
             </tr>
         </table>
@@ -26,6 +41,10 @@
 
     var form = new mini.Form("editForm");
 
+    //设置下拉默认
+    var ddlFatherId = mini.get("ddlFatherId");
+    ddlFatherId.setValue('@Model.FatherId');
+
     function SaveData() {
         var o = form.getData();
 
@@ -39,6 +58,7 @@
             data: o,
             cache: false,
             success: function (text) {
+                alert(text);
                 CloseWindow("save");
             },
             error: function (jqXHR, textStatus, errorThrown) {

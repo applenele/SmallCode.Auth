@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using SmallCode.Auth.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SmallCode.Auth.Controllers
 {
@@ -51,25 +52,50 @@ namespace SmallCode.Auth.Controllers
         public IActionResult Edit(Guid? id)
         {
             Function function = new Models.Function();
-            bool IsInsert = true;
+            WebState state = WebState.Add;
             if (id.HasValue)
             {
                 function = db.Functions.First(x => x.Id == id);
-                IsInsert = false;
+                state = WebState.Edit;
             }
-            ViewBag.IsInsert = IsInsert;
-            return View();
+            ViewBag.WebState = state;
+            return View(function);
         }
 
         [HttpPost]
-        public IActionResult Edit(Function function)
+        public IActionResult Edit(Function function, WebState State)
         {
-            function.CreatedBy = CurrentUser.Id;
-            function.CreatedDate = DateTime.Now;
-            function.IsDelete = false;
-            db.Functions.Add(function);
-            db.SaveChanges();
-            return View();
+            if (WebState.Add == State)
+            {
+                //增加的逻辑
+                function.CreatedBy = CurrentUser.Id;
+                function.CreatedDate = DateTime.Now;
+                function.IsDelete = false;
+                db.Functions.Add(function);
+                db.SaveChanges();
+                return Content("ok");
+            }
+            else if (WebState.Edit == State)
+            {
+                ///修改的逻辑
+                Function old = new Function();
+                old = db.Functions.Where(x => x.Id == function.Id).FirstOrDefault();
+                if (old == null)
+                {
+                    return Content("ok");
+                }
+                else
+                {
+                    old.FunctionCode = function.FunctionCode;
+                    old.FunctionName = function.FunctionName;
+                    old.Url = function.Url;
+                    old.FatherId = function.FatherId;
+                    db.SaveChanges();
+                    return Content("ok");
+                }
+            }
+
+            return Content("error");
         }
         #endregion
 
@@ -82,6 +108,14 @@ namespace SmallCode.Auth.Controllers
             db.Functions.RemoveRange(functions);
             db.SaveChanges();
             return Content("ok");
+        }
+
+
+        [HttpGet]
+        public IActionResult GetFathers()
+        {
+            List<Function> functions = db.Functions.Where(x => x.FatherId == null).ToList();
+            return Json(functions);
         }
     }
 }

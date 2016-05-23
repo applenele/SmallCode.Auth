@@ -13,6 +13,11 @@ namespace SmallCode.Auth.Models
         public Guid Id { set; get; }
 
         /// <summary>
+        /// 功能编号
+        /// </summary>
+        public string FunctionCode { set; get; }
+
+        /// <summary>
         /// 方法名称
         /// </summary>
         public string FunctionName { set; get; }

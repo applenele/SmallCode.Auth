@@ -29,7 +29,7 @@
     <div property="columns">
         <div type="indexcolumn"></div>
         <div type="checkcolumn"></div>
-        <div field="Id" width="120" headerAlign="center">ID</div>
+        <div field="FunctionCode" width="120" headerAlign="center">功能编号</div>
         <div field="FunctionName" width="120" headerAlign="center" allowSort="true">功能名称</div>
         <div field="Url" width="120" headerAlign="center">功能名称</div>
         <div field="CreatedDate" width="100" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true">创建日期</div>
@@ -69,9 +69,9 @@
             url: "/Function/Edit",
             title: "新增角色", width: 600, height: 400,
             onload: function () {
-                var iframe = this.getIFrameEl();
-                var data = { action: "new" };
-                iframe.contentWindow.SetData(data);
+                //var iframe = this.getIFrameEl();
+                //var data = { action: "new" };
+                //iframe.contentWindow.SetData(data);
             },
             ondestroy: function (action) {
                 grid.reload();
@@ -84,12 +84,12 @@
         console.log(row);
         if (row) {
             mini.open({
-                url: "/Function/Edit/" + row,
+                url: "/Function/Edit/" + row.Id,
                 title: "编辑角色", width: 600, height: 400,
                 onload: function () {
-                    var iframe = this.getIFrameEl();
-                    var data = { action: "edit", id: row.id };
-                    iframe.contentWindow.SetData(data);
+                    //var iframe = this.getIFrameEl();
+                    //var data = { action: "edit", id: row.Id };
+                    //iframe.contentWindow.SetData(data);
                 },
                 ondestroy: function (action) {
                     grid.reload();

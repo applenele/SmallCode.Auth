@@ -14,7 +14,7 @@
 
 	{id: "function", text: "功能管理",pid:"sys"},
 	{id: "functionList", text: "功能管理",url:"/Function/Index", pid: "function"},		
-	{id: "functionAdd", text: "增加角色",url:"/Function/Edit", pid: "function"},	
+	{id: "functionAdd", text: "增加功能",url:"/Function/Edit", pid: "function"},	
 ]
 
 
