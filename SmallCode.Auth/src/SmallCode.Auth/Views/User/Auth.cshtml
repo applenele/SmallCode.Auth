@@ -1,24 +1,22 @@
 ﻿
-@{ 
-    List<Guid> functionIds = ViewBag.FunctionIds  as List<Guid>;
+@{
+    List<Guid> RoleIds = ViewBag.RoleIds as List<Guid>;
 }
 
-<input type="hidden" id="hRoleId" name="RoleId" value="@ViewBag.RoleId" />
+<input type="hidden" id="hUserId" name="RoleId" value="@ViewBag.UserId" />
 <table class="table">
     <tr>
         <td></td>
-        <td>功能名称</td>
-        <td>功能代码</td>
+        <td>角色</td>
     </tr>
-    @foreach (var item in ViewBag.Functions)
+    @foreach (var item in ViewBag.Roles)
     {
         <tr>
             <td>
-                <input type="checkbox" class="choose" name="choose" value="@item.Id" @(functionIds.Contains(item.Id)?"checked":"") />
+                <input type="checkbox" class="choose" name="choose" value="@item.Id" @(RoleIds.Contains(item.Id) ? "checked" : "") />
 
             </td>
-            <td>@item.FunctionName</td>
-            <td>@item.FunctionCode</td>
+            <td>@item.RoleName</td>
         </tr>
     }
 </table>
@@ -32,14 +30,14 @@
     }
 
     $(function () {
-        var functionIds = "";
+        var roleIds = "";
         $("#btnAuth").click(function () {
             $(".choose:checked").each(function (key, val) {
                 var id = $(val).val();
-                functionIds = functionIds + "," + id;
+                roleIds = roleIds + "," + id;
             });
-            $.post("/Role/Auth",
-                { functionIds: functionIds, id: $("#hRoleId").val() },
+            $.post("/User/Auth",
+                { roleIds: roleIds, id: $("#hUserId").val() },
                 function (data) {
                     if (data == "ok") {
                         CloseWindow("auth");

@@ -92,5 +92,45 @@ namespace SmallCode.Auth.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Auth(Guid id)
+        {
+            ViewBag.UserId = id;
+            List<Role> roles = new List<Role>();
+            roles = db.Roles.ToList();
+            ViewBag.Roles = roles;
+            List<Guid> oldRoleIdList = new List<Guid>();
+            oldRoleIdList = db.UserRoles.Where(x => x.UserId == id).Select(x => x.RoleId).ToList();
+            ViewBag.RoleIds = oldRoleIdList;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Auth(string roleIds, Guid id)
+        {
+            string[] roleIdArr = roleIds.Substring(1, roleIds.Length - 1).Split(',');
+            List<UserRole> userRoleList = new List<UserRole>();
+            foreach (var item in roleIdArr)
+            {
+                userRoleList.Add(new UserRole
+                {
+                    CreatedBy = CurrentUser.Id,
+                    CreatedDate = DateTime.Now,
+                    RoleId = new Guid(item),
+                    UserId = id,
+                    Id = Guid.NewGuid()
+                });
+            }
+
+            List<UserRole> oldUserRoleList = new List<UserRole>();
+            oldUserRoleList = db.UserRoles.Where(x => x.UserId == id).ToList();
+
+            db.UserRoles.RemoveRange(oldUserRoleList);
+
+            db.UserRoles.AddRange(userRoleList);
+            db.SaveChanges();
+
+            return Content("ok");
+        }
     }
 }

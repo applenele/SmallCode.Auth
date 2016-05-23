@@ -13,6 +13,7 @@
                 <td style="width:100%;">
                     <a class="mini-button" iconCls="icon-add" onclick="add()">增加</a>
                     <a class="mini-button" iconCls="icon-add" onclick="edit()">编辑</a>
+                    <a class="mini-button" iconCls="icon-add" onclick="auth()">授权</a>
                     <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>
                 </td>
                 <td style="white-space:nowrap;">
@@ -79,6 +80,22 @@
             }
         });
     }
+
+    function auth() {
+        var row = grid.getSelected();
+        mini.open({
+            url: "/User/Auth/" + row.Id,
+            title: "用户授予角色", width: 600, height: 400,
+            onload: function () {
+
+            },
+            ondestroy: function (action) {
+                grid.reload();
+            }
+        });
+    }
+
+
 
     function edit() {
         var row = grid.getSelected();
