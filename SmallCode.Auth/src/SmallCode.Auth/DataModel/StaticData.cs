@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using SmallCode.Auth.Models;
 
-namespace SmallCode.Auth.Models.DataModel
+namespace SmallCode.Auth.DataModel
 {
     public class StaticData
     {

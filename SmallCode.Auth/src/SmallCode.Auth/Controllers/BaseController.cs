@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using SmallCode.Auth.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
-using SmallCode.Auth.Models.DataModel;
 using SmallCode.Auth.Filters;
+using SmallCode.Auth.DataModel;
 
 namespace SmallCode.Auth.Controllers
 {

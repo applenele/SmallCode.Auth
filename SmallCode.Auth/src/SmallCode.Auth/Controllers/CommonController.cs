@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using Microsoft.Extensions.DependencyInjection;
-using SmallCode.Auth.Models.DataModel;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
