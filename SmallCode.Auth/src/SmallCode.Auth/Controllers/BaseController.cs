@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using SmallCode.Auth.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using SmallCode.Auth.Models.DataModel;
+using SmallCode.Auth.Filters;
 
 namespace SmallCode.Auth.Controllers
 {
@@ -20,7 +22,7 @@ namespace SmallCode.Auth.Controllers
 
         public User CurrentUser { set; get; }
 
-        public Dictionary<Guid, List<string>> UserPrivileges = new Dictionary<Guid, List<string>>();
+
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -29,28 +31,40 @@ namespace SmallCode.Auth.Controllers
                 CurrentUser = db.Users.Where(x => x.UserName == HttpContext.User.Identity.Name).SingleOrDefault();
                 ViewBag.CurrentUser = CurrentUser;
 
-                if (!UserPrivileges.ContainsKey(CurrentUser.Id))
+                if (!StaticData.UserPrivileges.ContainsKey(CurrentUser.Id))
                 {
-                    var data = from f in db.Functions
-                               join rf in db.RoleFunctions on f.Id equals rf.FunctionId
-                               join r in db.Roles on rf.RoleId equals r.Id
-                               join ur in db.UserRoles on r.Id equals ur.RoleId
-                               join u in db.Users on ur.UserId equals u.Id
-                               where u.Id == CurrentUser.Id
-                               select new
-                               {
-                                   f.Url
-                               };
-                    List<string> urls = new List<string>();
-                    foreach (var item in data)
+                    StaticData.SetUserPrivileges(CurrentUser.Id, db);
+                }
+
+
+                if (!IsRoot(CurrentUser.Id))
+                {
+                    string url = HttpContext.Request.Path.Value;
+                    Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
+
+                    StaticData.UserPrivileges.TryGetValue(CurrentUser.Id, out urls);
+                    if (!urls.Values.Contains(url))
                     {
-                        urls.Add(item.Url);
+                        HttpContext.Response.Redirect("/Common/NoAuth");
                     }
-                    UserPrivileges.Add(CurrentUser.Id, urls);
                 }
             }
             ViewBag.CurrentUser = CurrentUser;
             base.OnActionExecuting(context);
+        }
+
+        /// <summary>
+        /// 判断是不是root用户
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool IsRoot(Guid Id)
+        {
+            var count = (from ur in db.UserRoles
+                         join r in db.Roles on ur.RoleId equals r.Id
+                         where ur.UserId == Id && r.RoleName == "root"
+                         select r).Count();
+            return count > 0;
         }
     }
 }

@@ -57,5 +57,7 @@ namespace SmallCode.Auth.Models
         /// 是否删除
         /// </summary>
         public bool IsDelete { set; get; }
+
+        public FunctionType FunctionType { set; get; }
     }
 }

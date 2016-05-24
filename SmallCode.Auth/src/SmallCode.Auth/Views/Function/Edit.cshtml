@@ -25,8 +25,18 @@
                 <td style="width:70px;">父亲功能：</td>
                 <td style="width:150px;">
                     <input name="FatherId" id="ddlFatherId" class="mini-combobox" valueField="Id" textField="FunctionName"
-                           url="/Function/GetFathers" valueSelected="@Model.Id"
-                           emptyText="请选择部门" />
+                           url="/Function/GetFathers"
+                           emptyText="请选择功能" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:70px;">功能类型：</td>
+                <td style="width:150px;">
+                    <select name="FunctionType" required="true" class="mini-combobox" id="ddlFunctionType">
+                        <option value="">选择功能类型</option>
+                        <option value="View">视图页面</option>
+                        <option value="Api">接口调用</option>
+                    </select>
                 </td>
             </tr>
         </table>
@@ -41,9 +51,14 @@
 
     var form = new mini.Form("editForm");
 
-    //设置下拉默认
+    //设置父类下拉默认
     var ddlFatherId = mini.get("ddlFatherId");
     ddlFatherId.setValue('@Model.FatherId');
+
+    //设置父类下拉默认
+    var ddlFunctionType = mini.get("ddlFunctionType");
+    ddlFunctionType.setValue('@Model.FunctionType');
+    
 
     function SaveData() {
         var o = form.getData();

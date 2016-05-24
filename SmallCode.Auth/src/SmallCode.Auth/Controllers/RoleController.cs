@@ -37,7 +37,10 @@ namespace SmallCode.Auth.Controllers
             int index = model.pageIndex * model.pageSize;
 
             List<Role> roles = query.Skip(index).Take(model.pageSize).ToList();
-            return Json(roles);
+            GridResponseData<Role> response = new GridResponseData<Role>();
+            response.data = roles;
+            response.total = query.Count();
+            return Json(response);
         }
 
 

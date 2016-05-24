@@ -68,7 +68,7 @@ namespace SmallCode.Auth
                 AutomaticChallenge = true,
                 LoginPath = new PathString("/Account/Login"),
                 AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme,
-                
+
             });
 
 

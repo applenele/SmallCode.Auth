@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace SmallCode.Auth.Controllers
 {
@@ -15,10 +15,8 @@ namespace SmallCode.Auth.Controllers
             return View();
         }
 
-        public IActionResult GetMenu()
-        {
-            string menuStr = System.IO.File.ReadAllText("menu.txt");
-            return Content(menuStr);
-        }
+     
+
+       
     }
 }

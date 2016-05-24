@@ -38,7 +38,11 @@ namespace SmallCode.Auth.Controllers
             int index = model.pageIndex * model.pageSize;
 
             List<Function> functions = query.Skip(index).Take(model.pageSize).ToList();
-            return Json(functions);
+
+            GridResponseData<Function> response = new GridResponseData<Function>();
+            response.data = functions;
+            response.total = query.Count();
+            return Json(response);
         }
 
 
@@ -114,7 +118,7 @@ namespace SmallCode.Auth.Controllers
         [HttpGet]
         public IActionResult GetFathers()
         {
-            List<Function> functions = db.Functions.Where(x => x.FatherId == null).ToList();
+            List<Function> functions = db.Functions.Where(x => x.Url == "#").ToList();
             return Json(functions);
         }
     }

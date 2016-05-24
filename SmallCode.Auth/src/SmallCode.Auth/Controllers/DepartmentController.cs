@@ -31,7 +31,11 @@ namespace SmallCode.Auth.Controllers
             }
             int index = model.pageIndex * model.pageSize;
             List<Department> departments = query.Skip(index).Take(model.pageSize).ToList();
-            return Json(departments);
+
+            GridResponseData<Department> response = new GridResponseData<Department>();
+            response.data = departments;
+            response.total = query.Count();
+            return Json(response);
         }
 
         #region 部门信息的编辑
