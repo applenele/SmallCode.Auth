@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Authentication;
+using SmallCode.Auth.DataModel;
 
 namespace SmallCode.Auth.Controllers
 {
@@ -47,7 +48,10 @@ namespace SmallCode.Auth.Controllers
         [HttpGet]
         public async Task<IActionResult> LogOff()
         {
+            Guid CurrenUserId = CurrentUser.Id;
             await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            ///注销之后从权限缓存中移除该用户的权限列表
+            StaticData.RemoveUserPrivilegesByUserId(CurrenUserId);
             return Redirect("/Account/Login");
         }
 

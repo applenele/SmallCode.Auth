@@ -53,6 +53,14 @@ namespace SmallCode.Auth.DataModel
             }
             db.Dispose();
         }
+
+        public static void RemoveUserPrivilegesByUserId(Guid currenUserId)
+        {
+            if (UserPrivileges.Keys.Contains(currenUserId))
+            {
+                UserPrivileges.Remove(currenUserId);
+            }
+        }
     }
 
 }
