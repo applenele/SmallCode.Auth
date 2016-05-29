@@ -16,6 +16,8 @@ namespace SmallCode.Auth.Controllers
     {
         public AuthContext db { get { return HttpContext.RequestServices.GetService<AuthContext>(); } }
 
+        public Guid CurrentUserId { set; get; }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -66,10 +68,15 @@ namespace SmallCode.Auth.Controllers
             }
             else
             {
+                CurrentUserId = CurrentUser.Id;
+                Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
+
+                StaticData.UserPrivileges.TryGetValue(CurrentUser.Id, out urls);
+
                 menus = (from f in db.Functions
                          where f.FatherId == null && f.FunctionCode != "#"
                          && f.FunctionType == FunctionType.View
-                         && StaticData.UserPrivileges.Keys.Contains(f.Id)
+                         && urls.Keys.Contains(f.Id)
                          select new Menu
                          {
                              id = f.Id.ToString(),
@@ -137,13 +144,16 @@ namespace SmallCode.Auth.Controllers
             {
                 return;
             }
+            Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
+
+            StaticData.UserPrivileges.TryGetValue(CurrentUserId, out urls);
 
             foreach (var menu in tempList)
             {
                 var _list = (from f in db.Functions
                              where f.FatherId == new Guid(menu.id)
                               && f.FunctionType == FunctionType.View
-                              && StaticData.UserPrivileges.Keys.Contains(f.Id)
+                              && urls.Keys.Contains(f.Id)
                              select new Menu
                              {
                                  id = f.Id.ToString(),

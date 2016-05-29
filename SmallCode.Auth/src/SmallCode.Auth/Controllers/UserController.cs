@@ -134,6 +134,9 @@ namespace SmallCode.Auth.Controllers
             db.UserRoles.AddRange(userRoleList);
             db.SaveChanges();
 
+            ///更新缓存的权限
+            StaticData.SetUserPrivileges(CurrentUser.Id, db);
+
             return Content("ok");
         }
     }
