@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using Microsoft.Extensions.DependencyInjection;
+using SmallCode.Auth.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -71,7 +72,7 @@ namespace SmallCode.Auth.Controllers
                 CurrentUserId = CurrentUser.Id;
                 Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
 
-                StaticData.UserPrivileges.TryGetValue(CurrentUser.Id, out urls);
+                CacheService.UserPrivileges.TryGetValue(CurrentUser.Id, out urls);
 
                 menus = (from f in db.Functions
                          where f.FatherId == null && f.FunctionCode != "#"
@@ -146,7 +147,7 @@ namespace SmallCode.Auth.Controllers
             }
             Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
 
-            StaticData.UserPrivileges.TryGetValue(CurrentUserId, out urls);
+            CacheService.UserPrivileges.TryGetValue(CurrentUserId, out urls);
 
             foreach (var menu in tempList)
             {

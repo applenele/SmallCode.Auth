@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using SmallCode.Auth.Filters;
 using SmallCode.Auth.DataModel;
+using SmallCode.Auth.Services;
 
 namespace SmallCode.Auth.Controllers
 {
@@ -24,6 +25,7 @@ namespace SmallCode.Auth.Controllers
 
 
 
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
@@ -31,23 +33,23 @@ namespace SmallCode.Auth.Controllers
                 CurrentUser = db.Users.Where(x => x.UserName == HttpContext.User.Identity.Name).SingleOrDefault();
                 ViewBag.CurrentUser = CurrentUser;
 
-                if (!StaticData.UserPrivileges.ContainsKey(CurrentUser.Id))
-                {
-                    StaticData.SetUserPrivileges(CurrentUser.Id, db);
-                }
+                //if (!CacheService.UserPrivileges.ContainsKey(CurrentUser.Id))
+                //{
+                //    cacheService.SetUserPrivileges(CurrentUser.Id);
+                //}
 
 
-                if (!IsRoot(CurrentUser.Id))
-                {
-                    string url = HttpContext.Request.Path.Value;
-                    Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
+                //if (!IsRoot(CurrentUser.Id))
+                //{
+                //    string url = HttpContext.Request.Path.Value;
+                //    Dictionary<Guid, string> urls = new Dictionary<Guid, string>();
 
-                    StaticData.UserPrivileges.TryGetValue(CurrentUser.Id, out urls);
-                    if (!urls.Values.Contains(url))
-                    {
-                        HttpContext.Response.Redirect("/Common/NoAuth");
-                    }
-                }
+                //    CacheService.UserPrivileges.TryGetValue(CurrentUser.Id, out urls);
+                //    if (!urls.Values.Contains(url))
+                //    {
+                //        HttpContext.Response.Redirect("/Common/NoAuth");
+                //    }
+                //}
             }
             ViewBag.CurrentUser = CurrentUser;
             base.OnActionExecuting(context);

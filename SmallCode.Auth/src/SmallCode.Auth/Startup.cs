@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using SmallCode.Auth.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SmallCode.Auth.Services;
 
 namespace SmallCode.Auth
 {
@@ -49,6 +50,9 @@ namespace SmallCode.Auth
 
             //csrf
             services.AddAntiforgery();
+
+            services.AddScoped<ICacheService, CacheService>();
+
         }
 
         public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

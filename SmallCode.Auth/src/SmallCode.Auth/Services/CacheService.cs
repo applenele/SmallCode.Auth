@@ -1,28 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using SmallCode.Auth.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
-using SmallCode.Auth.Models;
-using Microsoft.AspNetCore.Http.Features;
 
-
-namespace SmallCode.Auth.DataModel
+namespace SmallCode.Auth.Services
 {
-    public class StaticData
+    public class CacheService : ICacheService
     {
-        public static AuthContext db;
+        private readonly AuthContext db;
+
+        public CacheService(AuthContext _conetxt)
+        {
+            db = _conetxt;
+        }
 
         public static Dictionary<Guid, Dictionary<Guid, string>> UserPrivileges = new Dictionary<Guid, Dictionary<Guid, string>>();
 
-        public static void SetUserPrivileges(Guid Id)
+        public void SetUserPrivileges(Guid Id)
         {
-            var services = new ServiceCollection();
-            var provider = services.BuildServiceProvider();
-
-            AuthContext context = provider.GetService<AuthContext>();
 
             var data = (from f in db.Functions
                         join rf in db.RoleFunctions on f.Id equals rf.FunctionId
@@ -49,10 +45,9 @@ namespace SmallCode.Auth.DataModel
             {
                 UserPrivileges.Add(Id, urls);
             }
-
         }
 
-        public static void SetUserPrivilegesByRole(Guid id)
+        public void SetUserPrivilegesByRole(Guid id)
         {
             List<Guid> userIds = db.UserRoles.Where(x => x.RoleId == id).Select(x => x.UserId).ToList();
 
@@ -60,10 +55,9 @@ namespace SmallCode.Auth.DataModel
             {
                 SetUserPrivileges(item);
             }
-            db.Dispose();
         }
 
-        public static void RemoveUserPrivilegesByUserId(Guid currenUserId)
+        public void RemoveUserPrivilegesByUserId(Guid currenUserId)
         {
             if (UserPrivileges.Keys.Contains(currenUserId))
             {
@@ -72,5 +66,4 @@ namespace SmallCode.Auth.DataModel
         }
 
     }
-
 }

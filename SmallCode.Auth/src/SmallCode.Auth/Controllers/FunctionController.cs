@@ -7,11 +7,13 @@ using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using SmallCode.Auth.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SmallCode.Auth.Services;
 
 namespace SmallCode.Auth.Controllers
 {
     public class FunctionController : BaseController
     {
+
         // GET: /<controller>/
         public IActionResult Index()
         {

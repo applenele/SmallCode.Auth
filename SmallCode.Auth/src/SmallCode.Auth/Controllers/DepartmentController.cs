@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using SmallCode.Auth.Extensions;
+using SmallCode.Auth.Services;
 
 namespace SmallCode.Auth.Controllers
 {
     public class DepartmentController : BaseController
     {
+
         // GET: /<controller>/
         public IActionResult Index()
         {

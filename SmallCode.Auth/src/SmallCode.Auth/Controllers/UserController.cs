@@ -7,11 +7,17 @@ using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using SmallCode.Auth.Helper;
 using SmallCode.Auth.Extensions;
+using SmallCode.Auth.Services;
+using SmallCode.Auth.Filters;
 
 namespace SmallCode.Auth.Controllers
 {
     public class UserController : BaseController
     {
+
+        [Inject]
+        public ICacheService cacheService { set; get; }
+
         // GET: /<controller>/
         public IActionResult Index(PageRequestModel model)
         {
@@ -135,7 +141,7 @@ namespace SmallCode.Auth.Controllers
             db.SaveChanges();
 
             ///更新缓存的权限
-            StaticData.SetUserPrivileges(CurrentUser.Id, db);
+            cacheService.SetUserPrivileges(CurrentUser.Id);
 
             return Content("ok");
         }
