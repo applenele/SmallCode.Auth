@@ -11,6 +11,7 @@ using SmallCode.Auth.Filters;
 
 namespace SmallCode.Auth.Controllers
 {
+    [Auth]
     public class RoleController : BaseController
     {
 

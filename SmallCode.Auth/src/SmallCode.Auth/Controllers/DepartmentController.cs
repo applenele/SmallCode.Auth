@@ -7,9 +7,11 @@ using SmallCode.Auth.DataModel;
 using SmallCode.Auth.Models;
 using SmallCode.Auth.Extensions;
 using SmallCode.Auth.Services;
+using SmallCode.Auth.Filters;
 
 namespace SmallCode.Auth.Controllers
 {
+    [Auth]
     public class DepartmentController : BaseController
     {
 

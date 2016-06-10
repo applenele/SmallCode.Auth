@@ -8,9 +8,11 @@ using SmallCode.Auth.Models;
 using SmallCode.Auth.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SmallCode.Auth.Services;
+using SmallCode.Auth.Filters;
 
 namespace SmallCode.Auth.Controllers
 {
+    [Auth]
     public class FunctionController : BaseController
     {
 

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmallCode.Auth.Filters
 {
-    public class AuthFilterAttribute : Attribute, IActionFilter
+    public class AuthAttribute : Attribute, IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {

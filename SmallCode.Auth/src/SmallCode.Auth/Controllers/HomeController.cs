@@ -9,7 +9,7 @@ using SmallCode.Auth.Filters;
 
 namespace SmallCode.Auth.Controllers
 {
-    [AuthFilter]
+    [Auth]
     public class HomeController : BaseController
     {
 
