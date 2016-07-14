@@ -1,3 +1,4 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/nqj09vwyinr8w5bx/branch/master?svg=true)](https://ci.appveyor.com/project/applenele/smallcode-auth/branch/master)
 # SmallCode.Auth
 SmallCode.Auth For Asp.Net Core RTM
 
